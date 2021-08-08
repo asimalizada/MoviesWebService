@@ -4,6 +4,9 @@ using System.Linq;
 using Business.Abstract;
 using Business.Constants;
 using Business.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
@@ -23,8 +26,11 @@ namespace Business.Concrete
             _movieDal = movieDal;
         }
 
+        [ValidationAspect(typeof(MovieValidator))]
+        [CacheRemoveAspect("Get")]
         public IResult Add(Movie movie)
         {
+            //...
             if ((DateTime.Now.Hour == 23 & DateTime.Now.Minute == 59) 
                 & (DateTime.Now.Hour == 7 & DateTime.Now.Minute == 59))
             {
@@ -32,13 +38,15 @@ namespace Business.Concrete
             }
 
             //ValidatorTool.Validate(movie, new MovieValidator());
-            ValidatorTool.ValidateGeneric(movie, new MovieValidator());
+            //ValidatorTool.ValidateGeneric(movie, new MovieValidator());
             //... 
             _movieDal.Add(movie);
 
             return new SuccessResult(Messages.AddMovie);
         }
 
+        [ValidationAspect(typeof(MovieValidator))]
+        [CacheRemoveAspect("Get")]
         public IResult Update(Movie movie)
         {
 
@@ -47,12 +55,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [CacheRemoveAspect("Get")]
         public IResult Delete(Movie movie)
         {
             _movieDal.Delete(movie);
             return new SuccessResult();
         }
 
+        [CacheAspect]
+        [PerformanceAspect(0)]
         public IDataResult<List<Movie>> GetAll()
         {
             if ((DateTime.Now.Hour == 23 & DateTime.Now.Minute == 59)
@@ -61,21 +72,23 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<Movie>>(Messages.MaintenanceTime);
             }
 
-
             return new SuccessDataResult<List<Movie>>(_movieDal.GetAll());
         }
 
+        [CacheAspect]
         public List<Movie> GetById(int id)
         {
             return _movieDal.GetAll(m => m.MovieId == id);
         }
 
+        [CacheAspect]
         public List<Movie> GetByMovieName(string movieName)
         {
             return _movieDal.GetAll(m => m.MovieName
                 .ToLower().Contains(movieName.ToLower()));
         }
 
+        [CacheAspect]
         public IDataResult<List<Movie>> GetByGenreId(int genreId)
         {
             return new SuccessDataResult<List<Movie>>(_movieDal.GetAll(m => m.GenreId == genreId));
