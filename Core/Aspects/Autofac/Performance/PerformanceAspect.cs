@@ -28,7 +28,7 @@ namespace Core.Aspects.Autofac.Performance
             if (this._stopwatch.Elapsed.TotalSeconds > this._interval)
             {
                 Debug.WriteLine($"Performance : {invocation.Method.DeclaringType.FullName}.{invocation.Method.Name} --> {this._stopwatch.Elapsed.TotalSeconds}");
-                throw new Exception("Process take longer than expect.");
+                throw new System.Exception("Process take longer than expect.");
             }
             this._stopwatch.Reset();
         }

@@ -24,6 +24,7 @@ namespace Business.IoC.Autofac
             builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()
                 {

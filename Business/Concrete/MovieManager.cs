@@ -28,6 +28,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(MovieValidator))]
         [CacheRemoveAspect("Get")]
+        //[AutorizationAspect("moderator,admin")]
         public IResult Add(Movie movie)
         {
             //...

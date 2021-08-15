@@ -15,7 +15,7 @@ namespace Core.Aspects.Autofac.Validation
         {
             if (typeof(IValidator).IsAssignableFrom(validatorType))
             {
-                throw new Exception("Parameter must be assignable from IValidator.");
+                throw new System.Exception("Parameter must be assignable from IValidator.");
             }
 
             this._validatorType = validatorType;
