@@ -50,7 +50,6 @@ namespace Business.Concrete
         [CacheRemoveAspect("Get")]
         public IResult Update(Movie movie)
         {
-
             _movieDal.Update(movie);
 
             return new SuccessResult();
