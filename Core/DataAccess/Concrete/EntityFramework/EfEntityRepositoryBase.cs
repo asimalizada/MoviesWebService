@@ -17,6 +17,7 @@ namespace Core.DataAccess.Concrete.EntityFramework
             using (TContext context = new TContext())
             {
                 var addedEntity = context.Entry(entity);
+                entity.GetType().GetProperties()[0].SetValue(entity, this.GetNextId());
                 addedEntity.State = EntityState.Added;
                 context.SaveChanges();
             }

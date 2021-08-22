@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Caching;
@@ -28,7 +29,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(MovieValidator))]
         [CacheRemoveAspect("Get")]
-        //[AutorizationAspect("moderator,admin")]
+        [AuthorizationAspect("moderator,admin")]
         public IResult Add(Movie movie)
         {
             //...
@@ -48,6 +49,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(MovieValidator))]
         [CacheRemoveAspect("Get")]
+        [AuthorizationAspect("moderator,admin")]
         public IResult Update(Movie movie)
         {
             _movieDal.Update(movie);
@@ -56,6 +58,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("Get")]
+        [AuthorizationAspect("moderator,admin")]
         public IResult Delete(Movie movie)
         {
             _movieDal.Delete(movie);

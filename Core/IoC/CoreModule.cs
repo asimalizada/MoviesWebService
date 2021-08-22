@@ -3,6 +3,7 @@ using Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace Core.IoC
 {
@@ -12,6 +13,7 @@ namespace Core.IoC
         {
             services.AddMemoryCache();
             services.AddSingleton<ICacheManager, MemoryCacheManager>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<Stopwatch>();
         }
     }

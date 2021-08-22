@@ -6,6 +6,7 @@ using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache;
 using Core.Interceptors;
+using Core.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -17,11 +18,14 @@ namespace Business.IoC.Autofac
         {
             builder.RegisterType<EfMovieDal>().As<IMovieDal>().SingleInstance();
             builder.RegisterType<EfGenreDal>().As<IGenreDal>().SingleInstance();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
 
             builder.RegisterType<MovieManager>().As<IMovieService>().SingleInstance();
             builder.RegisterType<GenreManager>().As<IGenreService>().SingleInstance();
-
-            builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().SingleInstance();
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+            
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
